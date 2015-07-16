@@ -16,7 +16,11 @@
 	</head>
 	<body <?php body_class(); ?>>
 
-    <div class="background_images" data-image="img/home_background.jpg"></div>
+    <?php foreach ( get_post_meta( $post->ID, 'slider_image_url' ) as $image_url ): ?>
+    <div>
+      <div class="background_images" data-image="<?php echo $image_url; ?>"></div>
+    </div>
+    <?php endforeach; ?>
 
     <div class="sticky">
       <nav class="top-bar" data-topbar role="navigation">
@@ -29,25 +33,13 @@
 
          <section class="top-bar-section">
             <!-- Left Nav Section -->
-            <ul class="left">
-              <li><a href="#">Portfolio</a></li>
-              <li class="active"><a href="#">About</a></li>
-              <li class="has-dropdown">
-                <a href="#">Contact</a>
-                <ul class="dropdown">
-                  <li><a href="#">First link in dropdown</a></li>
-                  <li class="active"><a href="#">Active link in dropdown</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Pricing</a></li>
-            </ul>
+            <?php header_nav(); ?>
             <!-- Right Nav Section -->
             <ul class="right">
               <li><a href="https://www.linkedin.com/in/zmetcalf" target="_blank"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
               <li><a href="https://twitter.com/zmetcalf" target="_blank"><i class="fa fa-twitter-square fa-lg"></i></a></li>
               <li><a href="https://github.com/zmetcalf" target="_blank"><i class="fa fa-github-square fa-lg"></i></a></li>
             </ul>
-
           </section>
       </nav>
     </div>

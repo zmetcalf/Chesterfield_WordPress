@@ -61,15 +61,48 @@ if (function_exists('add_theme_support'))
 	Functions
 \*------------------------------------*/
 
-// HTML5 Blank navigation
-function html5blank_nav()
+// Content nav
+
+// Custom walker for content menu
+class Walker_Content_Menu extends Walker_Nav_Menu {
+
+  // Tell Walker where to inherit it's parent and id values
+
+  var $db_fields = array(
+    'parent' => 'menu_item_parent',
+    'id'     => 'db_id'
+  );
+
+  function display_element( $element, &$children_elements, $max_depth, $depth=0, $args, &$output ) {
+    $element->has_children = !empty( $children_elements[$element->ID] );
+    $element->classes[] = ( $element->current || $element->current_item_ancestor ) ? 'active' : '';
+    $element->classes[] = ( $element->has_children ) ? 'has-dropdown' : '';
+    parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+  }
+
+  function start_lvl( &$output, $depth = 0, $args = array() ) {
+      // depth dependent classes
+      $indent = ( $depth > 0  ? str_repeat( "\t", $depth ) : '' ); // code indent
+      $display_depth = ( $depth + 1); // because it counts the first submenu as 0
+      $classes = array(
+          'dropdown',
+          ( $display_depth % 2  ? 'menu-odd' : 'menu-even' ),
+          ( $display_depth >=2 ? 'sub-sub-menu' : '' ),
+          'menu-depth-' . $display_depth
+          );
+      $class_names = implode( ' ', $classes );
+      // build html
+      $output .= "\n" . $indent . '<ul class="' . $class_names . '">' . "\n";
+  }
+}
+function header_nav()
 {
 	wp_nav_menu(
 	array(
-		'theme_location'  => 'header-menu',
+		'theme_location'  => 'header_nav',
 		'menu'            => '',
-		'container'       => 'div',
-		'container_class' => 'menu-{menu slug}-container',
+		'container'       => false,
+		'container_class' => '',
 		'container_id'    => '',
 		'menu_class'      => 'menu',
 		'menu_id'         => '',
@@ -79,9 +112,9 @@ function html5blank_nav()
 		'after'           => '',
 		'link_before'     => '',
 		'link_after'      => '',
-		'items_wrap'      => '<ul>%3$s</ul>',
+		'items_wrap'      => '<ul class="left">%3$s</ul>',
 		'depth'           => 0,
-		'walker'          => ''
+		'walker'          => new Walker_Content_Menu()
 		)
 	);
 }
@@ -125,21 +158,21 @@ function html5blank_conditional_scripts()
 // Load HTML5 Blank styles
 function html5blank_styles()
 {
-    wp_register_style('cf_app', get_template_directory_uri() . '/css/app.css');
-    wp_enqueue_style('cf_app'); // Enqueue it!
+  wp_register_style('cf_app', get_template_directory_uri() . '/css/app.css');
+  wp_enqueue_style('cf_app'); // Enqueue it!
 
-    wp_register_style('vegas', get_template_directory_uri() . '/bower_components/vegas/dist/vegas.min.css');
-    wp_enqueue_style('vegas'); // Enqueue it!
+  wp_register_style('vegas', get_template_directory_uri() . '/bower_components/vegas/dist/vegas.min.css');
+  wp_enqueue_style('vegas'); // Enqueue it!
 
-    wp_register_style('font_awesome', get_template_directory_uri() . '/bower_components/fontawesome/css/font-awesome.min.css');
-    wp_enqueue_style('font_awesome'); // Enqueue it!
+  wp_register_style('font_awesome', get_template_directory_uri() . '/bower_components/fontawesome/css/font-awesome.min.css');
+  wp_enqueue_style('font_awesome'); // Enqueue it!
 }
 
 // Register HTML5 Blank Navigation
 function register_html5_menu()
 {
     register_nav_menus(array( // Using array to specify more menus if needed
-        'header-menu' => __('Header Menu', 'chesterfield_wordpress'), // Main Navigation
+        'header_nav' => __('Header Menu', 'chesterfield_wordpress'), // Main Navigation
     ));
 }
 
@@ -355,7 +388,7 @@ add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_hea
 // add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
 add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
 add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
-// add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
+add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
 // add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 add_action('init', 'html5wp_pagination'); // Add our HTML5 Pagination

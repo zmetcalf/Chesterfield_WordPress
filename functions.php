@@ -89,17 +89,28 @@ function html5blank_nav()
 // Load HTML5 Blank scripts (header.php)
 function html5blank_header_scripts()
 {
-    if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
+  if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
+    wp_register_script('modernizr', get_template_directory_uri() . '/bower_components/modernizr/modernizr.js', array(), '2.7.1'); // Modernizr
+    wp_enqueue_script('modernizr'); // Enqueue it!
 
-    	wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0'); // Conditionizr
-        wp_enqueue_script('conditionizr'); // Enqueue it!
+    wp_register_script('cf_jquery', get_template_directory_uri() . '/bower_components/jquery/dist/jquery.min.js', array(), '0.0.1', TRUE); // Custom scripts
+    wp_enqueue_script('cf_jquery'); // Enqueue it!
 
-        wp_register_script('modernizr', get_template_directory_uri() . '/js/lib/modernizr-2.7.1.min.js', array(), '2.7.1'); // Modernizr
-        wp_enqueue_script('modernizr'); // Enqueue it!
+    wp_register_script('foundation', get_template_directory_uri() . '/bower_components/foundation/js/foundation.min.js', array('cf_jquery'), '0.0.1', TRUE); // Custom scripts
+    wp_enqueue_script('foundation'); // Enqueue it!
 
-        wp_register_script('html5blankscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
-        wp_enqueue_script('html5blankscripts'); // Enqueue it!
-    }
+    wp_register_script('fastclick', get_template_directory_uri() . '/bower_components/foundation/js/vendor/fastclick.js', array('cf_jquery'), '0.0.1', TRUE); // Custom scripts
+    wp_enqueue_script('fastclick'); // Enqueue it!
+
+    wp_register_script('vegas', get_template_directory_uri() . '/bower_components/vegas/dist/vegas.min.js', array('cf_jquery'), '0.0.1', TRUE); // Custom scripts
+    wp_enqueue_script('vegas'); // Enqueue it!
+
+    wp_register_script('masonry', get_template_directory_uri() . '/bower_components/masonry/dist/masonry.pkgd.min.js', array('cf_jquery'), '0.0.1', TRUE); // Custom scripts
+    wp_enqueue_script('masonry'); // Enqueue it!
+
+    wp_register_script('cf_app', get_template_directory_uri() . '/js/app.js', array('cf_jquery', 'foundation', 'vegas', 'masonry'), '0.0.1', TRUE); // Custom scripts
+    wp_enqueue_script('cf_app'); // Enqueue it!
+  }
 }
 
 // Load HTML5 Blank conditional scripts
@@ -114,20 +125,21 @@ function html5blank_conditional_scripts()
 // Load HTML5 Blank styles
 function html5blank_styles()
 {
-    wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
-    wp_enqueue_style('normalize'); // Enqueue it!
+    wp_register_style('cf_app', get_template_directory_uri() . '/css/app.css');
+    wp_enqueue_style('cf_app'); // Enqueue it!
 
-    wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
-    wp_enqueue_style('html5blank'); // Enqueue it!
+    wp_register_style('vegas', get_template_directory_uri() . '/bower_components/vegas/dist/vegas.min.css');
+    wp_enqueue_style('vegas'); // Enqueue it!
+
+    wp_register_style('font_awesome', get_template_directory_uri() . '/bower_components/fontawesome/css/font-awesome.min.css');
+    wp_enqueue_style('font_awesome'); // Enqueue it!
 }
 
 // Register HTML5 Blank Navigation
 function register_html5_menu()
 {
     register_nav_menus(array( // Using array to specify more menus if needed
-        'header-menu' => __('Header Menu', 'html5blank'), // Main Navigation
-        'sidebar-menu' => __('Sidebar Menu', 'html5blank'), // Sidebar Navigation
-        'extra-menu' => __('Extra Menu', 'html5blank') // Extra Navigation if needed (duplicate as many as you need!)
+        'header-menu' => __('Header Menu', 'chesterfield_wordpress'), // Main Navigation
     ));
 }
 
@@ -339,10 +351,10 @@ function html5blankcomments($comment, $args, $depth)
 \*------------------------------------*/
 
 // Add Actions
-// add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
+add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
 // add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
 add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
-// add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
+add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
 // add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
 // add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()

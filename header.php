@@ -13,38 +13,41 @@
 		<meta name="description" content="<?php bloginfo('description'); ?>">
 
 		<?php wp_head(); ?>
-		<script>
-        // conditionizr.com
-        // configure environment tests
-        conditionizr.config({
-            assets: '<?php echo get_template_directory_uri(); ?>',
-            tests: {}
-        });
-        </script>
-
 	</head>
 	<body <?php body_class(); ?>>
 
-		<!-- wrapper -->
-		<div class="wrapper">
+    <div class="background_images" data-image="img/home_background.jpg"></div>
 
-			<!-- header -->
-			<header class="header clear" role="banner">
+    <div class="sticky">
+      <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="<?php echo home_url(); ?>">Chesterfield Agency</a></h1>
+          </li>
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
 
-					<!-- logo -->
-					<div class="logo">
-						<a href="<?php echo home_url(); ?>">
-							<!-- svg logo - toddmotto.com/mastering-svg-use-for-a-retina-web-fallbacks-with-png-script -->
-							<img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="Logo" class="logo-img">
-						</a>
-					</div>
-					<!-- /logo -->
+         <section class="top-bar-section">
+            <!-- Left Nav Section -->
+            <ul class="left">
+              <li><a href="#">Portfolio</a></li>
+              <li class="active"><a href="#">About</a></li>
+              <li class="has-dropdown">
+                <a href="#">Contact</a>
+                <ul class="dropdown">
+                  <li><a href="#">First link in dropdown</a></li>
+                  <li class="active"><a href="#">Active link in dropdown</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Pricing</a></li>
+            </ul>
+            <!-- Right Nav Section -->
+            <ul class="right">
+              <li><a href="https://www.linkedin.com/in/zmetcalf" target="_blank"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
+              <li><a href="https://twitter.com/zmetcalf" target="_blank"><i class="fa fa-twitter-square fa-lg"></i></a></li>
+              <li><a href="https://github.com/zmetcalf" target="_blank"><i class="fa fa-github-square fa-lg"></i></a></li>
+            </ul>
 
-					<!-- nav -->
-					<nav class="nav" role="navigation">
-						<?php html5blank_nav(); ?>
-					</nav>
-					<!-- /nav -->
-
-			</header>
-			<!-- /header -->
+          </section>
+      </nav>
+    </div>

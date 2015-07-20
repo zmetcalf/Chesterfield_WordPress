@@ -16,11 +16,13 @@
 	</head>
 	<body <?php body_class(); ?>>
 
-    <?php foreach ( get_post_meta( $post->ID, 'slider_image_url' ) as $image_url ): ?>
-    <div>
-      <div class="background_images" data-image="<?php echo $image_url; ?>"></div>
-    </div>
-    <?php endforeach; ?>
+    <?php if ( $post->ID ): // Issue with 404 ?>
+      <?php foreach ( get_post_meta( $post->ID, 'slider_image_url' ) as $image_url ): ?>
+      <div>
+        <div class="background_images" data-image="<?php echo $image_url; ?>"></div>
+      </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
 
     <div class="sticky">
       <nav class="top-bar" data-topbar role="navigation">

@@ -493,4 +493,23 @@ function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 short
     return '<h2>' . $content . '</h2>';
 }
 
-?>
+// Register Portfolio Item
+
+function portfolio_item_init() {
+  register_post_type('portfolio_item',
+    array(
+      'label' => 'Portfolio Items',
+      'capability_type' => 'post',
+      'public' => true,
+      'supports' => array(
+        'title',
+        'editor',
+        'thumbnail',
+        'custom-fields'
+      ),
+      'map_meta_cap' => true
+    )
+  );
+}
+
+add_action( 'init', 'portfolio_item_init');

@@ -1,24 +1,14 @@
 <?php get_header(); ?>
+<div class="row">
+  <div class="large-12 columns">
+    <div class="large-12 small-12 columns panel">
 
-	<main role="main">
-		<!-- section -->
-		<section>
+      <h1><?php _e( 'Welcome to the 404 room.', 'html5blank' ); ?></h1>
+      <h2>
+        <a href="<?php echo home_url(); ?>"><?php _e( 'Return to the Chesterfield...', 'html5blank' ); ?></a>
+      </h2>
 
-			<!-- article -->
-			<article id="post-404">
-
-				<h1><?php _e( 'Page not found', 'html5blank' ); ?></h1>
-				<h2>
-					<a href="<?php echo home_url(); ?>"><?php _e( 'Return home?', 'html5blank' ); ?></a>
-				</h2>
-
-			</article>
-			<!-- /article -->
-
-		</section>
-		<!-- /section -->
-	</main>
-
-<?php get_sidebar(); ?>
-
+    </div>
+  </div>
+</div>
 <?php get_footer(); ?>

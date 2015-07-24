@@ -16,12 +16,16 @@
 	</head>
 	<body <?php body_class(); ?>>
 
-    <?php if ( $post->ID ): // Issue with 404 ?>
+    <?php if ( $post->ID AND get_post_meta( $post->ID, 'slider_image_url' ) ): // 404 ?>
       <?php foreach ( get_post_meta( $post->ID, 'slider_image_url' ) as $image_url ): ?>
       <div>
         <div class="background_images" data-image="<?php echo $image_url; ?>"></div>
       </div>
       <?php endforeach; ?>
+    <?php else: ?>
+      <div>
+        <div class="background_images" data-image="<?php echo get_template_directory_uri(); ?>/img/default_background.jpg"></div>
+      </div>
     <?php endif; ?>
 
     <div class="sticky">

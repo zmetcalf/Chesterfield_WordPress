@@ -59,7 +59,7 @@
 
 body {
 
-  &.page-template-default, &.single-portfolio_item {
+  &.page-template-default, &.single-portfolio_item, &.error404 {
     background: black;
 
     .vegas-slide {
